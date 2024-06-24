@@ -1,7 +1,7 @@
 'use client'
 
-import { pokemonOptions } from '@/app/prefetch-data/pokemon'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { pokemonOptions } from './api'
 
 export function PokemonInfo() {
   const { data } = useSuspenseQuery(pokemonOptions)
