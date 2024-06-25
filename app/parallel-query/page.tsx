@@ -1,16 +1,25 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import { getPokemonData } from './api'
+import { getPokemonDataById } from './api'
 
 const Page = () => {
-  const [count, setCount] = useState(1)
-
   const { isLoading, isError, isFetching, data } = useQuery({
-    queryKey: ['query-example', { count }],
-    queryFn: () => getPokemonData({ count }),
+    queryKey: ['parallel-25-query-example'],
+    queryFn: () => getPokemonDataById({ id: 25 }),
+    select: (data) => {
+      console.log('data', data)
+      return data
+    },
+  })
+
+  const test = useQuery({
+    queryKey: ['parallel-25-query-example'],
+    queryFn: () => getPokemonDataById({ id: 24 }),
+    select: (data) => {
+      console.log('data', data)
+      return data
+    },
   })
 
   if (isLoading) {
@@ -30,8 +39,6 @@ const Page = () => {
         <img src={data.sprites.front_shiny} height={200} alt={data.name} />
         <h2>Im {data.name}</h2>
       </figure>
-      <p>{count}</p>
-      <Button onClick={() => setCount(count + 1)}>Click me!</Button>
     </div>
   )
 }
